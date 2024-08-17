@@ -131,16 +131,16 @@ class AnalysisResult(BaseModel):
     trends: List[str]
 
 # LLM Configuration
-llm = ChatGroq(groq_api_key=GROQ_API_KEY,model_name="gemma-7b-it", temperature=0.1, convert_system_message_to_human=True)
+llm = ChatGroq(groq_api_key=GROQ_API_KEY,model_name="gemma-7b-it", temperature=0.1)
 output_parser = PydanticOutputParser(pydantic_object=AnalysisResult)
 
 analyze_prompt = PromptTemplate(
     input_variables=["feedback"],
     template="Analyze the following customer feedback: \
-            \n{feedback}\n\nProvide the following as per given format: \
-            \n1. Key topics (comma-separated) \
-            \n2. Sentiment ( If mixed sentiment then must be separated by pipe in bracket) \
-            \n3. Emerging trends (comma-separated)"
+            \n{feedback}\n\nProvide the analysis in the following format with each key-value pair on a new line: \
+            \nKey topics: comma-separated list without bullet points \
+            \nOverall Sentiment: Positive, Negative, or Neutral \
+            \nEmerging trends: comma-separated list without bullet points"
 )
 
 # Langchain llm chain
@@ -258,15 +258,35 @@ async def get_analytics(current_user: dict = Depends(admin_required)): # only fo
         raise HTTPException(status_code=404, detail="No feedback data available")
 
 # The combined feedback collected earlier is passed here
+    print("LLM chain start")
     result = analyze_chain.run(feedback=combined_feedback)
+
+    print("LLM chain end")
     
-    topics, sentiment, trends = result.split("\n")
+    # Split result by double newlines
+    split_result = result.split("\n")
+    cleaned_result = [line.strip() for line in split_result if line.strip()]
+
+# Check length of split_result and unpack accordingly
+    if len(cleaned_result) == 3:
+        topics, sentiment, trends = cleaned_result.split()
+        print(topics)
+        print(sentiment)
+        print(trends)
+    else:
+        topics = cleaned_result[0]
+        sentiment = cleaned_result[1]
+        trends = ",".join([" ".join(word.split()[1:]) for word in cleaned_result])
+        print(topics)
+        print(sentiment)
+        print((f"{cleaned_result[2]} : {trends}"))
+
     
     # Return the prediction of the model
     return {
-        "topics": [topic.strip() for topic in topics.split(",")],
-        "sentiment": sentiment.strip(),
-        "trends": [trend.strip() for trend in trends.split(",")]
+        "Topics": [topic.strip() for topic in topics.split(",")],
+        "Sentiment": sentiment.strip(),
+        "Trends": [trend.strip() for trend in trends.split(",")]
     }
 
 if __name__ == "__main__":
