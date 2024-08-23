@@ -274,20 +274,23 @@ async def get_analytics(current_user: dict = Depends(admin_required)): # only fo
         print(sentiment)
         print(trends)
     else:
-        topics = cleaned_result[0]
-        sentiment = cleaned_result[1]
-        trends = ",".join([" ".join(word.split()[1:]) for word in cleaned_result])
+        topics = cleaned_result[0].split('**')[2]
+        sentiment = cleaned_result[1].split('**')[2]
+        trends =  ",".join([" ".join(word.split()[1:]) for word in cleaned_result[3:]])
+        print("--------------------------------")
         print(topics)
         print(sentiment)
-        print((f"{cleaned_result[2]} : {trends}"))
+        print(trends)
 
     
     # Return the prediction of the model
+
     return {
-        "Topics": [topic.strip() for topic in topics.split(",")],
-        "Sentiment": sentiment.strip(),
-        "Trends": [trend.strip() for trend in trends.split(",")]
+         "topics": [topic.strip().capitalize() for topic in topics.split(",")],
+         "sentiment": sentiment.strip().capitalize(),
+         "trends": [trend.strip().capitalize() for trend in trends.split(",")]
     }
+
 
 if __name__ == "__main__":
     import uvicorn
