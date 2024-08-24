@@ -59,7 +59,7 @@ const Register: React.FC = () => {
               flexDirection: 'column',
               alignItems: 'center',
               padding: 4,
-              background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+              background: 'linear-gradient(145deg, black, #02ccfe)',
               borderRadius: '15px',
               animation: `${fadeIn} 0.6s ease-out`,
             }}
@@ -67,7 +67,7 @@ const Register: React.FC = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
+            <Typography component="h1" variant="h5" sx={{ mb: 3 , color:'white'}}>
               Register
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -82,7 +82,7 @@ const Register: React.FC = () => {
                 autoFocus
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2 ,'& .MuiInputBase-input': {color: 'white'}}}
               />
               <TextField
                 margin="normal"
@@ -95,7 +95,7 @@ const Register: React.FC = () => {
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2 ,'& .MuiInputBase-input': {color: 'white'}}}
               />
               <Button
                 type="submit"
@@ -120,7 +120,7 @@ const Register: React.FC = () => {
               )}
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link href="/login" variant="body2" sx={{ color: 'white' }}>
                     Already have an account? Sign in
                   </Link>
                 </Grid>

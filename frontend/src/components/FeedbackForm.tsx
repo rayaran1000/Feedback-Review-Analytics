@@ -41,12 +41,12 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
             alignItems: 'center', 
             mb: 4, 
             p: 2, 
-            backgroundColor: '#2196f3', 
+            background: 'linear-gradient(145deg, black, #02ccfe)', 
             borderRadius: '10px',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
           }}
         >
-          <FeedbackIcon sx={{ fontSize: 40, color: 'white', mr: 2 }} />
+          <FeedbackIcon sx={{ fontSize: 40, color: 'grey', mr: 2 }} />
           <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
             Submit Your Feedback
           </Typography>
@@ -56,7 +56,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           elevation={6} 
           sx={{ 
             p: 3, 
-            background: 'linear-gradient(145deg, #ffffff, #f0f0f0)', 
+            background: 'linear-gradient(145deg, black, #02ccfe)', 
             borderRadius: '15px',
             transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
             '&:hover': {
@@ -76,7 +76,11 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
               placeholder="Enter your feedback here"
               required
               margin="normal"
-              sx={{ mb: 2 }}
+              sx={{ mb: 2 ,
+                '& .MuiInputBase-input': {
+                color: 'white', 
+                },
+              }}
             />
             <Button
               type="submit"

@@ -16,10 +16,10 @@ import { Analytics, UserRole } from './types';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#05a6eb',
+      main: '#1e1e1e',
     },
     secondary: {
-      main: '#05a6eb',
+      main: '#1e1e1e',
     },
   },
 });

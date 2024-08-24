@@ -17,7 +17,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
   return (
-    <AppBar position="static" color="primary" elevation={4}>
+    <AppBar position="static" elevation={4} sx={{ backgroundColor: '#1e1e1e' }}>
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
               textDecoration: 'none',
             }}
           >
-            Conversational Analytics
+            Feedback Analytics
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
                 <Button
                   component={RouterLink}
                   to="/register"
-                  startIcon={<PersonAddIcon />}
+                  startIcon={<PersonAddIcon sx={{ color: '#87CEEB' }} />} // Icon color changed to sky blue
                   sx={{ my: 2, color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                 >
                   Register
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
                 <Button
                   component={RouterLink}
                   to="/login"
-                  startIcon={<LoginIcon />}
+                  startIcon={<LoginIcon sx={{ color: '#87CEEB' }} />} // Icon color changed to sky blue
                   sx={{ my: 2, color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                 >
                   Login
@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
                 <Button
                   component={RouterLink}
                   to="/home"
-                  startIcon={<HomeIcon />}
+                  startIcon={<HomeIcon sx={{ color: '#87CEEB' }} />} // Icon color changed to sky blue
                   sx={{ my: 2, color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                 >
                   Home
@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
                   <Button
                     component={RouterLink}
                     to="/analytics"
-                    startIcon={<AnalyticsIcon />}
+                    startIcon={<AnalyticsIcon sx={{ color: '#87CEEB' }} />} // Icon color changed to sky blue
                     sx={{ my: 2, color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                   >
                     Analytics
@@ -81,14 +81,14 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
                 <Button
                   component={RouterLink}
                   to="/feedback"
-                  startIcon={<FeedbackIcon />}
+                  startIcon={<FeedbackIcon sx={{ color: '#87CEEB' }} />} // Icon color changed to sky blue
                   sx={{ my: 2, color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                 >
                   Feedback
                 </Button>
                 <Button
                   onClick={handleLogout}
-                  startIcon={<LogoutIcon />}
+                  startIcon={<LogoutIcon sx={{ color: '#87CEEB' }} />} // Icon color changed to sky blue
                   sx={{ my: 2, color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                 >
                   Logout

@@ -24,9 +24,11 @@ const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 `;
+
 interface LoginProps {
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
+
 const Login: React.FC<LoginProps> = ({ setToken }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -69,15 +71,15 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
               flexDirection: 'column',
               alignItems: 'center',
               padding: 4,
-              background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+              background: 'linear-gradient(145deg, black, #02ccfe)',
               borderRadius: '15px',
               animation: `${fadeIn} 0.6s ease-out`,
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: 'black' }}>
               <LockOpenOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
+            <Typography component="h1" variant="h5" sx={{ mb: 3 ,color:'white'}}>
               Welcome Back
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -92,7 +94,7 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
                 autoFocus
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2 ,'& .MuiInputBase-input': {color: 'white'}}}
               />
               <TextField
                 margin="normal"
@@ -105,7 +107,8 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2 ,'& .MuiInputBase-input': {
+                color: 'white'}}}
               />
               <Button
                 type="submit"
@@ -130,12 +133,21 @@ const Login: React.FC<LoginProps> = ({ setToken }) => {
               )}
               <Grid container justifyContent="space-between" sx={{ mt: 2 }}>
                 <Grid item>
-                  <Link component={RouterLink} to="/register" variant="body2">
+                  <Link
+                    component={RouterLink}
+                    to="/register"
+                    variant="body2"
+                    sx={{ color: 'white' }} 
+                  >
                     Don't have an account? Sign Up
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link
+                    href="#"
+                    variant="body2"
+                    sx={{ color: 'white' }} 
+                  >
                     Forgot password?
                   </Link>
                 </Grid>

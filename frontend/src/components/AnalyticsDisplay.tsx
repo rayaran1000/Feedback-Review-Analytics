@@ -28,12 +28,12 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
             alignItems: 'center', 
             mb: 4, 
             p: 2, 
-            backgroundColor: '#05A6EB', 
+            backgroundColor: '#1e1e1e', 
             borderRadius: '10px',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
           }}
         >
-          <BarChartIcon sx={{ fontSize: 40, color: 'white', mr: 2 }} />
+          <BarChartIcon sx={{ fontSize: 40, color: 'grey', mr: 2 }} />
           <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
             Analytics Overview
           </Typography>
@@ -45,7 +45,7 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
               elevation={6} 
               sx={{ 
                 p: 3, 
-                background: 'linear-gradient(145deg, #ffffff, #f0f0f0)', 
+                background: 'linear-gradient(145deg, black, #02ccfe)', 
                 borderRadius: '15px',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                 '&:hover': {
@@ -54,7 +54,7 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
                 }
               }}
             >
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'black' }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>
                 Key Topics
               </Typography>
               <Box display="flex" flexWrap="wrap" gap={1}>
@@ -63,8 +63,8 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
                   key={index}
                   label={topic}
                   sx={{
-                    backgroundColor: 'white', 
-                    color: 'black', 
+                    backgroundColor: 'black', 
+                    color: '#50dbfe', 
                     fontWeight: 'bold',
                     transition: 'transform 0.2s',
                     '&:hover': {
@@ -81,7 +81,7 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
               elevation={6} 
               sx={{ 
                 p: 3, 
-                background: 'linear-gradient(145deg, #ffffff, #f0f0f0)', 
+                background: 'linear-gradient(145deg, black, #02ccfe)', 
                 borderRadius: '15px',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                 '&:hover': {
@@ -90,11 +90,22 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
                 }
               }}
             >
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'black' }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>
                 Overall Sentiment
               </Typography>
               <Box display="flex" flexWrap="wrap" gap={1}>
-               {analytics.sentiment}
+              <Chip
+                label={analytics.sentiment} 
+                sx={{
+                  background: 'black', 
+                  color: '#50dbfe', 
+                  fontWeight: 'bold',
+                  transition: 'transform 0.2s',
+                  '&:hover': {
+                    transform: 'scale(1.05)'
+                  }
+                }}
+              />
             </Box>
             </Paper>
           </Grid>
@@ -103,7 +114,7 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
               elevation={6} 
               sx={{ 
                 p: 3, 
-                background: 'linear-gradient(145deg, #ffffff, #f0f0f0)', 
+                background: 'linear-gradient(145deg, black, #02ccfe)', 
                 borderRadius: '15px',
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                 '&:hover': {
@@ -112,7 +123,7 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
                 }
               }}
             >
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'black' }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>
                 Emerging Trends
               </Typography>
               <Box display="flex" flexWrap="wrap" gap={1}>
@@ -121,8 +132,8 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
                   key={index}
                   label={trend}
                   sx={{
-                    backgroundColor: 'white', 
-                    color: 'black', 
+                    background: 'black', 
+                    color: '#50dbfe', 
                     fontWeight: 'bold',
                     transition: 'transform 0.2s',
                     '&:hover': {
