@@ -50,8 +50,8 @@ if not MONGODB_URI:
 
 # Sentiment Database used for storing Feedbacks that are submitted by the users
 client = MongoClient(MONGODB_URI)
-db = client.sentiment
-feedback_collection = db.sentiment_analytics
+db = client.feedback_analytics
+feedback_collection = db.sentiment
 
 # JWT settings
 SECRET_KEY = os.environ.get("SECRET_KEY")  # Set this securely in production

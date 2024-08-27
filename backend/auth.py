@@ -21,8 +21,8 @@ if not MONGODB_URI:
 
 # Auth database used to store User Hashed Password - for login purpose
 client = MongoClient(MONGODB_URI)
-db = client['user_auth_db'] # Database with 'user_auth_db' name created in MongoDB server
-users_collection = db['users'] # Collection named 'users' created
+db = client['feedback_analytics'] # Database with 'user_auth_db' name created in MongoDB server
+users_collection = db['users_password'] # Collection named 'users' created
 
 # JWT settings
 SECRET_KEY = os.environ.get("SECRET_KEY")  # Set this securely in production
