@@ -1,136 +1,154 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Container, Box, Typography, TextField, Button, Paper, 
-  Avatar, CssBaseline, Link, Grid, Zoom
-} from '@mui/material';
+import { TextField, Button, Box, Paper, Typography, Container, Avatar, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { keyframes } from '@emotion/react';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#2196f3',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-});
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     try {
-      await axios.post('http://localhost:8000/register', { username, password });
+      await axios.post('http://localhost:8000/register', {
+        username,
+        password
+      });
       navigate('/login');
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        setError(error.response.data.detail);
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        setError('Username already exists');
       } else {
-        setError('An unexpected error occurred');
+        setError('Registration failed. Please try again.');
       }
+      console.error('Registration error:', err);
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Zoom in={true} style={{ transitionDelay: '300ms' }}>
-          <Paper 
-            elevation={6}
+    <Container component="main" maxWidth="xs">
+      <Paper 
+        elevation={0}
+        sx={{ 
+          mt: 8,
+          p: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          background: 'linear-gradient(145deg, rgba(0,0,0,0.8), rgba(2,204,254,0.15))',
+          borderRadius: '20px',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          transition: 'transform 0.3s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-5px)',
+          }
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: '#50dbfe' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" sx={{ color: 'white', mb: 3 }}>
+          Register
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: 4,
-              background: 'linear-gradient(145deg, black, #02ccfe)',
-              borderRadius: '15px',
-              animation: `${fadeIn} 0.6s ease-out`,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#50dbfe',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#50dbfe',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255, 255, 255, 0.7)',
+              },
+              '& .MuiOutlinedInput-input': {
+                color: 'white',
+              },
+            }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#50dbfe',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#50dbfe',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255, 255, 255, 0.7)',
+              },
+              '& .MuiOutlinedInput-input': {
+                color: 'white',
+              },
+            }}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ 
+              mt: 3, mb: 2, 
+              background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+              transition: 'all 0.3s',
+              '&:hover': {
+                transform: 'scale(1.05)',
+                boxShadow: '0 6px 10px rgba(0, 0, 0, 0.2)',
+              }
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5" sx={{ mb: 3 , color:'white'}}>
-              Register
+            Register
+          </Button>
+          {error && (
+            <Typography color="error" align="center" sx={{ mt: 2 }}>
+              {error}
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                sx={{ mb: 2 ,'& .MuiInputBase-input': {color: 'white'}}}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                sx={{ mb: 2 ,'& .MuiInputBase-input': {color: 'white'}}}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ 
-                  mt: 3, mb: 2, 
-                  background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                  transition: 'all 0.3s',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                    boxShadow: '0 6px 10px rgba(0, 0, 0, 0.2)',
-                  }
-                }}
-              >
-                Register
-              </Button>
-              {error && (
-                <Typography color="error" align="center" sx={{ mt: 2 }}>
-                  {error}
-                </Typography>
-              )}
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="/login" variant="body2" sx={{ color: 'white' }}>
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Paper>
-        </Zoom>
-      </Container>
-    </ThemeProvider>
+          )}
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/login" variant="body2" sx={{ color: 'white' }}>
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
+    </Container>
   );
-}
+};
 
 export default Register;

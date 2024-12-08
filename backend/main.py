@@ -130,6 +130,10 @@ class AnalysisResult(BaseModel):
     topics: List[str]
     trends: List[str]
 
+class LoginData(BaseModel):
+    username: str
+    password: str
+
 # LLM Configuration
 llm = ChatGroq(groq_api_key=GROQ_API_KEY,model_name="gemma-7b-it", temperature=0.1)
 output_parser = PydanticOutputParser(pydantic_object=AnalysisResult)
@@ -169,25 +173,21 @@ async def register(user: User, admin_key: str = Header(None, alias="X-Admin-Key"
     result = users_collection.insert_one(user_dict)
     return {"message": "User registered successfully", "id": str(result.inserted_id)}
 
-@app.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    """
-    Authenticate user and provide access token.
-    """
-    logger.info(f"Entered in 'login_for_access_token' function")
-    user = authenticate_user(form_data.username, form_data.password) # Checking whether the user is present in db or not
+@app.post("/token")
+async def login_for_access_token(login_data: LoginData):
+    user = authenticate_user(login_data.username, login_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES) # Creating access tokens
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={ "sub" : user["username"], "role": user["role"]},
+        data={"sub": user["username"], "role": user["role"]},
         expires_delta=access_token_expires
     )
-    return {"access_token": str(access_token), "token_type": "bearer"} # Bearer means the user can access the resource
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/me", response_model=UserOut)
 async def read_users_me(current_user: dict = Depends(get_current_user)):

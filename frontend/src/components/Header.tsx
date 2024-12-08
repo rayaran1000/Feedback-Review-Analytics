@@ -17,7 +17,14 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
   return (
-    <AppBar position="static" elevation={4} sx={{ backgroundColor: '#1e1e1e' }}>
+    <AppBar 
+      position="static" 
+      sx={{ 
+        background: 'linear-gradient(145deg, rgba(0,0,0,0.9), rgba(2,204,254,0.2))',
+        backdropFilter: 'blur(10px)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+      }}
+    >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
@@ -28,14 +35,17 @@ const Header: React.FC<HeaderProps> = ({ token, handleLogout, userRole }) => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'white',
+              color: '#50dbfe',
               textDecoration: 'none',
+              transition: 'color 0.3s ease',
+              '&:hover': {
+                color: 'white',
+              }
             }}
           >
-            Feedback Analytics
+            FEEDBACK ANALYTICS
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>

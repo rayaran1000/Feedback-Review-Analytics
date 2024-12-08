@@ -27,14 +27,15 @@ const AnalyticsDisplay: React.FC<AnalyticsDisplayProps> = ({ analytics, userRole
             display: 'flex', 
             alignItems: 'center', 
             mb: 4, 
-            p: 2, 
-            backgroundColor: '#1e1e1e', 
-            borderRadius: '10px',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            p: 3, 
+            background: 'linear-gradient(145deg, rgba(0,0,0,0.9), rgba(2,204,254,0.2))',
+            borderRadius: '20px',
+            backdropFilter: 'blur(10px)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
           }}
         >
-          <BarChartIcon sx={{ fontSize: 40, color: 'grey', mr: 2 }} />
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
+          <BarChartIcon sx={{ fontSize: 48, color: '#50dbfe', mr: 2 }} />
+          <Typography variant="h4" sx={{ fontWeight: 600, color: 'white', letterSpacing: '0.5px' }}>
             Analytics Overview
           </Typography>
         </Box>

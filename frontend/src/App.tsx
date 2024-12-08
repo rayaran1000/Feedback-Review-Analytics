@@ -11,24 +11,64 @@ import PrivateRoute from './components/PrivateRoute';
 import FeedbackForm from './components/FeedbackForm';
 import AnalyticsDisplay from './components/AnalyticsDisplay';
 import FeedbackDisplay from './components/FeedbackDisplay';
-import { Analytics, UserRole } from './types';
+import { Analytics, UserRole, LoginResponse, UserData, FeedbackResponse, FeedbackItem } from './types';
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      main: '#1e1e1e',
+      main: '#50dbfe',
+      light: '#79e5ff',
+      dark: '#0098cb',
     },
     secondary: {
-      main: '#1e1e1e',
+      main: '#ff6b9b',
+      light: '#ff9bc4',
+      dark: '#c73b74',
+    },
+    background: {
+      default: '#1a1a1a',
+      paper: '#262626',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#b3b3b3',
+    },
+  },
+  typography: {
+    fontFamily: "'Poppins', sans-serif",
+    h1: {
+      fontWeight: 600,
+    },
+    h2: {
+      fontWeight: 600,
+    },
+    h3: {
+      fontWeight: 600,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          textTransform: 'none',
+          fontWeight: 500,
+          padding: '10px 24px',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          backgroundImage: 'linear-gradient(145deg, rgba(0,0,0,0.8) 0%, rgba(2,204,254,0.2) 100%)',
+          backdropFilter: 'blur(10px)',
+        },
+      },
     },
   },
 });
-
-interface FeedbackItem {
-  feedback: string;
-  timestamp: string;
-  username: string;  // Ensure this line exists
-}
 
 const App: React.FC = () => {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
@@ -66,7 +106,7 @@ const App: React.FC = () => {
         }
       });
       if (!response.ok) throw new Error('Failed to fetch user data');
-      const userData = await response.json();
+      const userData = await response.json() as UserData;
       setUserRole(userData.role);
       setUsername(userData.username);
       localStorage.setItem('userRole', userData.role);
@@ -90,25 +130,31 @@ const App: React.FC = () => {
   };
 
   const fetchData = async () => {
-    if (!token) {
-      console.log('No token available, user might not be logged in');
-      return;
-    }
-    setLoading(true);
+    if (!token) return;
     try {
-      const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
+      setLoading(true);
       const [analyticsResponse, feedbackResponse] = await Promise.all([
-        fetch('http://localhost:8000/analytics', { headers }),
-        fetch('http://localhost:8000/feedback', { headers })
+        fetch('http://localhost:8000/analytics', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }),
+        fetch('http://localhost:8000/feedback', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
       ]);
+
       if (!analyticsResponse.ok || !feedbackResponse.ok) {
         throw new Error('Failed to fetch data');
       }
-      const analyticsData = await analyticsResponse.json();
-      const feedbackData = await feedbackResponse.json();
+
+      const analyticsData = await analyticsResponse.json() as Analytics;
+      const feedbackData = await feedbackResponse.json() as FeedbackResponse;
+
       setAnalytics(analyticsData);
       setFeedback(feedbackData);
     } catch (error) {
