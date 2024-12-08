@@ -1,23 +1,23 @@
-# Use an official Node runtime as the parent image
-FROM node:14
+# Use a newer Node.js version
+FROM node:18
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the current directory contents into the container
+# Copy the rest of the application
 COPY . .
 
 # Build the app
 RUN npm run build
 
-# Install serve to run the application
+# Install serve
 RUN npm install -g serve
 
-# Specify the command to run on container start
+# Start the app
 CMD ["serve", "-s", "build", "-l", "3000"]
